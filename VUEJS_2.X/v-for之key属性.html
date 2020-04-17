@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        li{list-style:none;}
+        body{font-size:12px;}
+        #app{width:200px;margin:0 auto;}
+        .row{margin-bottom:10px;}
+        .row input{width:200px;height:22px;line-height:22px;}
+        .row button{width:200px;height:22px;line-height:22px;}
+        .lists li{line-height:22px;}
+        .red{color:#c00;}
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="row">
+        <input type="text" placeholder="id" v-model="curId">
+    </div>
+    <div class="row">
+        <input type="text" placeholder="name" v-model="curName">
+    </div>
+    <div class="row">
+        <button @click="addBefore">队列前添加</button>
+        <button @click="addAfter">队列后添加</button>
+    </div>
+
+    <div>
+        <h6>列表无key值</h6>
+        <ul class="lists">
+            <li v-for="list in lists">
+                <input type="checkbox" :checked="list.checked">
+                id: {{list.id}} - name:{{list.name}}
+            </li>
+        </ul>
+    </div>
+    <div>
+        <h6>列表有key值</h6>
+        <ul class="lists">
+            <li v-for="list in lists" :key="list.id">
+                <input type="checkbox" :checked="list.checked">
+                id: {{list.id}} - name:{{list.name}}
+            </li>
+        </ul>
+    </div>
+    <p>
+        差别：<br/>
+        1.两个列表选中同一条数据<br/>
+        2.队列前添加一条数据<br/>
+        3.无key值选中项向上移动一位<br/>
+        4.有key值无变化<br/>
+        5.队列后添加任意数据无变化<br/>
+    </p>
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            curId:'',
+            curName:'',
+            lists:[
+                {
+                    id:1,
+                    name:'王A'
+                },
+                {
+                    id:2,
+                    name:'王B'
+                },
+                {
+                    id:3,
+                    name:'王C'
+                },
+                {
+                    id:4,
+                    name:'王D'
+                },
+                {
+                    id:5,
+                    name:'王E'
+                }
+            ]
+        },
+        methods:{
+            addBefore(){
+                this.lists.unshift({
+                    id:this.curId,
+                    name:this.curName
+                });
+            },
+            addAfter(){
+                this.lists.push({
+                    id:this.curId,
+                    name:this.curName
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>
