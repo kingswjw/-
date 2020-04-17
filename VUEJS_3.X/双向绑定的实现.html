@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        li{list-style:none;}
+        body{font-size:12px;padding:10px 50px;}
+        .wrapper{width:200px;}
+        .row{margin-bottom:10px;}
+        .row input{width:200px;height:22px;line-height:22px;}
+        .row button{width:200px;height:22px;line-height:22px;}
+        .lists li{line-height:22px;}
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="wrapper">
+        <div class="row">
+            <input type="text" id="inputId" />
+        </div>
+        <div class="row">
+            <p>输入内容：<span id="content"></span></p>
+            <p>输入时间：<span id="time"></span></p>
+        </div>
+    </div>
+</div>
+<script>
+    ///VUE3.X
+    (function(){
+        var inputId = document.getElementById('inputId');
+        var content = document.getElementById('content');
+        var time = document.getElementById('time');
+        var obj = {
+            message:'abc', ///默认为空
+            date:new Date().toLocaleString()
+        };
+        ///劫持obj对象，属性转化成getter、setter形式
+        ///注:Proxy可以劫持对象的全部属性
+        var example = new Proxy(obj, {
+            get(target, key, proxy){
+                return target[key];
+            },
+            set(target, key, value, proxy){
+                content.innerText = value;
+            }
+        });
+        console.log(example);
+        inputId.addEventListener('keyup', function(e){
+            example.message = e.target.value;
+        }, false);
+        content.innerText = example.message;
+        time.innerText = example.date;
+    })();
+</script>
+</body>
+</html>
