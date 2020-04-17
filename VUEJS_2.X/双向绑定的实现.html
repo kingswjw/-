@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        li{list-style:none;}
+        body{font-size:12px;padding:10px 50px;}
+        .wrapper{width:200px;}
+        .row{margin-bottom:10px;}
+        .row input{width:200px;height:22px;line-height:22px;}
+        .row button{width:200px;height:22px;line-height:22px;}
+        .lists li{line-height:22px;}
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="wrapper">
+        <div class="row">
+            <input type="text" id="inputId" />
+        </div>
+        <div class="row">
+            <p>输入内容：<span id="content"></span></p>
+        </div>
+    </div>
+</div>
+<script>
+    ///VUE2.X
+    (function(){
+        var inputId = document.getElementById('inputId');
+        var content = document.getElementById('content');
+        var obj = {
+            message:'' ///默认为空
+        };
+        ///劫持obj的message属性，转化成getter、setter形式
+        ///注:Object.defineProperty仅能劫持对象的属性
+        Object.defineProperty(obj, 'message', {
+            get(){
+                return 'abc'; ///默认值改为'abc'
+            },
+            set(msg){
+                content.innerText = msg;
+            }
+        });
+        inputId.addEventListener('keyup', function(e){
+            obj.message = e.target.value;
+        }, false);
+        content.innerText = obj.message;
+    })();
+</script>
+</body>
+</html>
